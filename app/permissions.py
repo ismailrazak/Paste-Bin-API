@@ -1,5 +1,7 @@
 from rest_framework.permissions import BasePermission
 from rest_framework import permissions
+
+
 class SnippetDetailPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user == obj.author:
@@ -14,6 +16,7 @@ class HomeViewPermission(BasePermission):
         if request.user.is_authenticated:
             return True
         return False
+
     def has_object_permission(self, request, view, obj):
         if request.user == obj.author:
             return True
