@@ -1,6 +1,9 @@
-from rest_framework import serializers
-from .models import Snippet, User
+from __future__ import annotations
+
 from django.contrib.auth.views import get_user_model
+from rest_framework import serializers
+
+from .models import Snippet, User
 
 
 class SnippetListSerializer(serializers.ModelSerializer):
@@ -66,7 +69,9 @@ class SnippetDetailSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     snippets = serializers.HyperlinkedRelatedField(
-        many=True, view_name="snippet_detail", read_only=True
+        many=True,
+        view_name="snippet_detail",
+        read_only=True,
     )
 
     class Meta:

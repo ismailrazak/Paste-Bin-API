@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from django.urls import path
-from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
+
+from . import views
 
 urlpatterns = [
     path("", views.entry_view, name="entry_view"),

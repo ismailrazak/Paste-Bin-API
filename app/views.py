@@ -1,23 +1,29 @@
+from __future__ import annotations
+
 import uuid
-from rest_framework import status
-from django.shortcuts import render, get_object_or_404, redirect
-from rest_framework import generics
-from . import models, serializers
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
-from .permissions import SnippetDetailPermission, HomeViewPermission
-from rest_framework.decorators import api_view, renderer_classes
-from django.contrib.auth.views import get_user_model
-from rest_framework.views import Response
-from django.urls import reverse
-from rest_framework.renderers import StaticHTMLRenderer
-from rest_framework.views import APIView
-from rest_framework.status import HTTP_204_NO_CONTENT
-from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
-from django.utils import timezone
+
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.views import get_user_model
 from django.core.cache import cache
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
 from django_filters import rest_framework as filters
+from rest_framework import generics, status
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
+from rest_framework.permissions import (
+    IsAdminUser,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
+from rest_framework.renderers import StaticHTMLRenderer
+from rest_framework.status import HTTP_204_NO_CONTENT
+from rest_framework.views import APIView, Response
+
+from . import models, serializers
 from .filters import SnippetFilter
+from .permissions import SnippetDetailPermission
 
 
 @api_view(["GET"])
@@ -26,7 +32,7 @@ def entry_view(request):
         data={
             "users": request.build_absolute_uri(reverse("users")),
             "snippets": request.build_absolute_uri(reverse("snippets")),
-        }
+        },
     )
 
 
@@ -56,23 +62,29 @@ class PasswordView(APIView):
             token = str(uuid.uuid4())
             cache.set(f"access_token_{pk}", token, timeout=3000)
             return Response(
-                status=status.HTTP_201_CREATED, data=f"password_token:{token}"
+                status=status.HTTP_201_CREATED,
+                data=f"password_token:{token}",
             )
         else:
             return Response(
-                status=status.HTTP_400_BAD_REQUEST, data="invalid password."
+                status=status.HTTP_400_BAD_REQUEST,
+                data="invalid password.",
             )
 
 
 class SnippetViewDetail(UpdateModelMixin, DestroyModelMixin, APIView):
+    permission_classes = SnippetDetailPermission, IsAuthenticated
+
     def get(self, request, pk):
         snippet = get_object_or_404(models.Snippet, id=pk)
         checks = _checks(request, snippet, pk)
         if checks:
             return checks
         serializer = serializers.SnippetDetailSerializer(
-            snippet, context={"request": request}
+            snippet,
+            context={"request": request},
         )
+
         return Response(serializer.data)
 
 
@@ -116,7 +128,8 @@ def _checks(request, snippet, pk):
         if models.OneTimeCode.objects.filter(code=pk).exists():
             snippet.delete()
             return Response(
-                status=HTTP_204_NO_CONTENT, data={"Snippet does not exist."}
+                status=HTTP_204_NO_CONTENT,
+                data={"Snippet does not exist."},
             )
         else:
             one_time_code = models.OneTimeCode.objects.create(code=pk)

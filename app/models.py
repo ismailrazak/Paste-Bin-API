@@ -1,15 +1,16 @@
-import datetime
-from django.utils import timezone
+from __future__ import annotations
+
+import uuid
+from datetime import timedelta
+
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from pygments.lexers import get_all_lexers
-from pygments.styles import get_all_styles
+from django.utils import timezone
+from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_all_lexers, get_lexer_by_name
-from django.contrib.auth.models import AbstractUser
-import uuid
-from pygments import highlight
-from datetime import timedelta
-from django.contrib.auth.hashers import make_password
+from pygments.styles import get_all_styles
 
 
 class User(AbstractUser):
@@ -28,10 +29,14 @@ class Snippet(models.Model):
     title = models.CharField(max_length=100)
     code = models.TextField()
     language_choices = models.CharField(
-        choices=LANGUAGE_CHOICES, default="Python", max_length=100
+        choices=LANGUAGE_CHOICES,
+        default="Python",
+        max_length=100,
     )
     style_choices = models.CharField(
-        choices=STYLE_CHOICES, default="friendly", max_length=100
+        choices=STYLE_CHOICES,
+        default="friendly",
+        max_length=100,
     )
     linenos = models.BooleanField(default=False)
     highlighted = models.TextField(null=True, blank=True)
@@ -57,7 +62,9 @@ class Snippet(models.Model):
         one_month = "1M", "one month"
 
     category = models.CharField(
-        max_length=2, choices=CategoryChoices, default=CategoryChoices.software
+        max_length=2,
+        choices=CategoryChoices,
+        default=CategoryChoices.software,
     )
     snippet_expiration = models.CharField(
         max_length=2,
@@ -89,7 +96,10 @@ class Snippet(models.Model):
         linenos = "table" if self.linenos else False
         options = {"title": self.title} if self.title else {}
         formatter = HtmlFormatter(
-            style=self.style_choices, linenos=linenos, full=True, **options
+            style=self.style_choices,
+            linenos=linenos,
+            full=True,
+            **options,
         )
         self.highlighted = highlight(self.code, lexer, formatter)
         super().save(*args, **kwargs)
