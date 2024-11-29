@@ -107,6 +107,15 @@ def highlighted_snippet_view(request, pk):
     checks = _checks(request, snippet, pk)
     if checks:
         return checks
+    if snippet.view_once:
+        if models.OneTimeCode.objects.filter(code=pk).exists():
+            snippet.delete()
+            return Response(
+                status=HTTP_204_NO_CONTENT,
+                data={"Snippet does not exist."},
+            )
+        else:
+            models.OneTimeCode.objects.create(code=pk)
     data = snippet.highlighted
     return Response(data)
 
@@ -124,12 +133,3 @@ def _checks(request, snippet, pk):
         if timezone.now() >= snippet.snippet_expired_date:
             snippet.delete()
             return Response(status=HTTP_204_NO_CONTENT, data="Time has expired.")
-    if snippet.view_once:
-        if models.OneTimeCode.objects.filter(code=pk).exists():
-            snippet.delete()
-            return Response(
-                status=HTTP_204_NO_CONTENT,
-                data={"Snippet does not exist."},
-            )
-        else:
-            one_time_code = models.OneTimeCode.objects.create(code=pk)
