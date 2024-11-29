@@ -12,6 +12,9 @@ from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_all_lexers, get_lexer_by_name
 from pygments.styles import get_all_styles
 
+# todo : create admin , users , snippets proper pass deployment checklist
+# todo : check login issue
+
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -79,7 +82,8 @@ class Snippet(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.password = make_password(self.password)
+        if self.password:
+            self.password = make_password(self.password)
         _internal_time = {
             "NO": None,
             "10": timedelta(minutes=10),

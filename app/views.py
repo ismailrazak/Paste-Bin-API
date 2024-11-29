@@ -113,12 +113,12 @@ def highlighted_snippet_view(request, pk):
 
 # helper function for checking password validation , view once and time expiration
 def _checks(request, snippet, pk):
+
     if snippet.password:
-        access_token = request.headers.get("X-Access-Token")
+        print(snippet.password)
+        access_token = request.headers.get("X-Access-Token", "Not Given")
         valid_token = cache.get(f"access_token_{pk}")
-        if access_token == valid_token:
-            cache.delete(f"access_token_{pk}")
-        else:
+        if access_token != valid_token:
             return redirect("password-required", pk)
     if snippet.snippet_expired_date:
         if timezone.now() >= snippet.snippet_expired_date:
