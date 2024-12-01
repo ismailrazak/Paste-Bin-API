@@ -10,4 +10,4 @@ class SnippetFilter(filters.FilterSet):
 
     class Meta:
         model = Snippet
-        fields = ["author"]
+        fields = ["author", "category"]

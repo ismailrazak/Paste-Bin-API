@@ -13,7 +13,6 @@ from pygments.lexers import get_all_lexers, get_lexer_by_name
 from pygments.styles import get_all_styles
 
 # todo : create admin , users , snippets proper pass deployment checklist
-# todo : check login issue
 
 
 class User(AbstractUser):

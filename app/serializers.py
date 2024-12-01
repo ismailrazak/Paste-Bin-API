@@ -43,6 +43,9 @@ class SnippetDetailSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField()
     password = serializers.CharField(write_only=True, allow_blank=True)
 
+    category = serializers.CharField(source="get_category_display")
+    snippet_expiration = serializers.CharField(source="get_snippet_expiration_display")
+
     class Meta:
         model = Snippet
         fields = [
