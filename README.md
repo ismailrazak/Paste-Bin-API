@@ -1,5 +1,8 @@
 # Paste-Bin-API
 
+## Live Web Link
+https://web-production-e303e.up.railway.app/
+
 Paste-Bin-API is a Pastebin-like API built with Django Rest Framework, providing features for creating snippets ,sharing snippets securely with view once option,date-expiration and more similar to Pastebin.
 
 ## Features
@@ -19,6 +22,27 @@ Paste-Bin-API is a Pastebin-like API built with Django Rest Framework, providing
    git clone https://github.com/ismailrazak/Paste-Bin-API.git
    cd Paste-Bin-API
 # Project Setup and Usage Guide
+
+
+## Logging in
+
+To login, go to:
+```
+  /auth/login/
+  ```
+
+To log in as testuser, use: 
+- **username**:ismail
+- **password**:testuser123
+
+To login as superuser use:
+- **username**:admin
+- **password**:admin
+
+To logout,go to:
+```
+  /auth/logout/
+  ```
 
 ## Setting Up a Virtual Environment
 
@@ -101,26 +125,4 @@ python manage.py runserver
   POST /token/refresh/
   ```
 
-
-## Configuration with Docker
-
-The project includes a `docker-compose.yml` file for setting up the development environment using Docker.
-
-### Build and Start Services
-
-```bash
-docker-compose up --build
-```
-
-### Apply Migrations Inside the Web Container
-
-```bash
-docker-compose exec web python manage.py migrate
-```
-
-### Create a Superuser (Optional)
-
-```bash
-docker-compose exec web python manage.py createsuperuser
-```
 
