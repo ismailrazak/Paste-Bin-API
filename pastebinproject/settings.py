@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # deployment checklist
 SECRET_KEY = config("SECRET_KEY")
 SECURE_SSL_REDIRECT = False
-DEBUG = False
+DEBUG = True
 SECURE_HSTS_SECONDS = 2592000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 ALLOWED_HOSTS = ["*"]
