@@ -1,5 +1,6 @@
 # Paste-Bin-API
 ![coverage.svg](coverage.svg)
+![Actions](https://github.com/ismailrazak/Paste-Bin-API/actions/workflows/django.yml/badge.svg)
 
 ## Live Web Link
 https://web-production-e303e.up.railway.app/
