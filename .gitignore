@@ -1,5 +1,8 @@
-.venv
+*.log
+*.pot
+*.pyc
 __pycache__
+.idea/*
 .env
-docker-compose.yml
-Dockerfile
+venv
+*/__pycache__/*
