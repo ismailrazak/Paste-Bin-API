@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # local
     "app",
     # 3rd party
+    "drf_spectacular",
     "rest_framework",
     "django_filters",
     "dj_rest_auth",
