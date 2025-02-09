@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # deployment checklist
-DEBUG = True
+DEBUG = False
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = False
@@ -36,8 +36,8 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    CSRF_TRUSTED_ORIGINS = ["https://*"]
-ALLOWED_HOSTS = ["*"]
+    CSRF_TRUSTED_ORIGINS = ["https://web-production-e303e.up.railway.app/*"]
+ALLOWED_HOSTS = ["web-production-e303e.up.railway.app"]
 SECRET_KEY = config("SECRET_KEY")
 AUTH_USER_MODEL = "app.User"
 
