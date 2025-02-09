@@ -30,6 +30,4 @@ jobs:
     - name: Run Tests
       run: |
         pytest --ds=pastebinproject.local_settings
-    - name: Generate coverage badge
-      run: |
-        coverage-badge -f -o coverage.svg
+
