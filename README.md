@@ -3,7 +3,7 @@
 ![Actions](https://github.com/ismailrazak/Paste-Bin-API/actions/workflows/django.yml/badge.svg)
 
 ## Live Web Link
-https://web-production-e303e.up.railway.app/
+https://web-production-53bc7.up.railway.app/
 
 Paste-Bin-API is a Pastebin-like API built with Django Rest Framework, providing features for creating snippets ,sharing snippets securely with view once option,date-expiration and more similar to Pastebin.
 
